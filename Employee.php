@@ -5,10 +5,10 @@
         private $employee_name;
         private $employee_work_start_date;
 
-        public function __construct($employee_id, $employee_name){
-            $this->employee_id = $employee_id;
-            $this->employee_name = $employee_name;
-            $this->employee_work_start_date = date("Y-m-d H:i:s");
+        public function __construct($emp_id, $emp_name, $start_date){
+            $this->employee_id = $emp_id;
+            $this->setEmpName($emp_name);
+            $this->setEmpWorkStartDate($start_date); 
 
         }
 
@@ -24,10 +24,19 @@
             return $this->employee_work_start_date;
         }
 
-
-        public function setEmpName($employee_name){
-            $this->employee_name = $employee_name;
+        public function setEmpName($name){
+            $this->employee_name = $name;
         }
+
+        public function setEmpWorkStartDate($date){
+            if($date == ''){
+                $this->employee_work_start_date = date("Y-m-d H:i:s");
+            }
+            else {
+                $this->employee_work_start_date = $date;
+            }
+        }
+            
 
     }
 
