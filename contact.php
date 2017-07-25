@@ -28,6 +28,11 @@
 
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
         $stmt->execute();
+        if($stmt->rowCount() == 0){
+            echo "no employees found";
+            return;
+        }
+
         while ($row = $stmt->fetch())
         {
             echo 'employee_id = ' . $row['employee_id'] . "<br>";
@@ -37,7 +42,12 @@
     }
 
     function GetEmployee(){
-        $Employee = new Employee($_POST["employeeID"], "");
+        if($_POST["employeeID"] == '')
+        {
+            echo 'please enter employee id';
+            return;
+        }
+        $Employee = new Employee($_POST["employeeID"], "","");
 
         $pdo = getConnection();
 
@@ -49,9 +59,19 @@
             echo 'employee_name ' . $row['employee_name'] . "\n";
             echo 'employee_work_start_date ' . $row['employee_work_start_date'] . "\n";
         }
+        else{
+              echo "no employee found";
+
+        }
     }
 
     function NewEmployee(){
+        if($_POST["employeeName"] == '')
+        {
+            echo 'please enter employee name';
+            return;
+        }
+
         $Employee = new Employee(0, $_POST["employeeName"], $_POST["employeeWorkStartDate"]);
 
         $pdo = getConnection();
@@ -67,10 +87,18 @@
     }
 
     function DeleteEmployee(){
+        if($_POST["employeeID"] == '')
+        {
+            echo 'please enter employee id';
+            return;
+        }
+
         $pdo = getConnection();
 
         $stmt = $pdo->prepare('delete from employee where employee_id = :employee_id' );
         $stmt->execute(['employee_id' => $_POST["employeeID"]]);
+
+        echo 'delete successful - below list of remaining employees ';            
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
         $stmt->execute();
         while ($row = $stmt->fetch())
@@ -93,8 +121,7 @@
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-        $pdo = new PDO($dsn, $user, $pass, $opt);
-        return $pdo;
+        return new PDO($dsn, $user, $pass, $opt);
     }
 
 ?>
