@@ -1,5 +1,6 @@
 <?php
 
+    require_once 'Connection.php';
     require_once 'Employee.php';
 
     if(isset($_POST["activity"])){
@@ -24,6 +25,8 @@
     }
 
     function AllEmployees(){
+        // $pdo = new Connection('northwind');
+        // $pdo->getConnection();
         $pdo = getConnection();
 
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
