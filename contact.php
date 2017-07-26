@@ -1,7 +1,7 @@
 <?php
 
-    require_once 'Connection.php';
     require_once 'Employee.php';
+    require_once 'configDb.php';
 
     if(isset($_POST["activity"])){
         $activity = $_POST["activity"];
@@ -27,7 +27,30 @@
     function AllEmployees(){
         // $pdo = new Connection('northwind');
         // $pdo->getConnection();
-        $pdo = getConnection();
+        //$pdo = getConnection();
+        
+
+        $dsn = ConfigDB::northwind();
+        $user = ConfigDB::get_user();
+        $pass = ConfigDB.get_pass();
+        $opt = ConfigDB.get_opt();
+        
+        $pdo = new PDO($dsn, $user, $pass, $opt);
+
+            // public static northwind() {
+            // $host = '127.0.0.1';
+            // $db='northwind';
+            // $user = 'root';
+            // $pass = '';
+            // $charset = 'utf8';
+            // $dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
+            // return $dsn;
+        // $opt = [
+        //     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        //     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        //     PDO::ATTR_EMULATE_PREPARES   => false,
+        // ];
+
 
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
         $stmt->execute();

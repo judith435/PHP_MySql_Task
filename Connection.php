@@ -1,5 +1,5 @@
 <?php
-    class Connection {
+    public static class Connection {
 
         private $host;
         private $db;
@@ -10,12 +10,6 @@
         private $opt;
 
         public function __construct($db){
-            $this->host = '127.0.0.1';
-            $this->db   = $db;//'northwind';
-            $this->user = 'root';
-            $this->pass = '';
-            $this->charset = 'utf8';
-            $this->dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
             $this->opt = [
                             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
