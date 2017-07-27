@@ -25,32 +25,7 @@
     }
 
     function AllEmployees(){
-        // $pdo = new Connection('northwind');
-        // $pdo->getConnection();
-        //$pdo = getConnection();
-        
-
-        $dsn = ConfigDB::northwind();
-        $user = ConfigDB::get_user();
-        $pass = ConfigDB.get_pass();
-        $opt = ConfigDB.get_opt();
-        
-        $pdo = new PDO($dsn, $user, $pass, $opt);
-
-            // public static northwind() {
-            // $host = '127.0.0.1';
-            // $db='northwind';
-            // $user = 'root';
-            // $pass = '';
-            // $charset = 'utf8';
-            // $dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
-            // return $dsn;
-        // $opt = [
-        //     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        //     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        //     PDO::ATTR_EMULATE_PREPARES   => false,
-        // ];
-
+        $pdo = get_PDO();
 
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
         $stmt->execute();
@@ -75,7 +50,7 @@
         }
         $Employee = new Employee($_POST["employeeID"], "","");
 
-        $pdo = getConnection();
+        $pdo = get_PDO();
 
         $stmt = $pdo->prepare('SELECT * FROM employee WHERE employee_id = :employee_id' );
         $stmt->execute(['employee_id' => $Employee->getEmpID()]);
@@ -100,7 +75,7 @@
 
         $Employee = new Employee(0, $_POST["employeeName"], $_POST["employeeWorkStartDate"]);
 
-        $pdo = getConnection();
+        $pdo = get_PDO();
         $stmt = $pdo->prepare("insert into employee (employee_name,
                                                      employee_work_start_date)
                                     values  (:employee_name,
@@ -119,12 +94,12 @@
             return;
         }
 
-        $pdo = getConnection();
+        $pdo = get_PDO();
 
         $stmt = $pdo->prepare('delete from employee where employee_id = :employee_id' );
         $stmt->execute(['employee_id' => $_POST["employeeID"]]);
 
-        echo 'delete successful - below list of remaining employees ';            
+        echo 'delete successful - below list of remaining employees <br>';            
         $stmt = $pdo->prepare('SELECT * FROM employee order by  employee_id' );
         $stmt->execute();
         while ($row = $stmt->fetch())
@@ -135,19 +110,10 @@
         }
     }
 
-    function getConnection(){
-        $host = '127.0.0.1';
-        $db   = 'northwind';
-        $user = 'root';
-        $pass = '';
-        $charset = 'utf8';
-        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-        $opt = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-        return new PDO($dsn, $user, $pass, $opt);
+    function get_PDO(){
+        $pdo_parms = ConfigDB::build_pdo_parms('northwind');
+        return new PDO($pdo_parms['dsn'], $pdo_parms['user'], $pdo_parms['pass'],  $pdo_parms['opt']);
     }
+
 
 ?>
