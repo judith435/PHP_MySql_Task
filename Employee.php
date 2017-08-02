@@ -30,7 +30,7 @@
 
         public function setEmpWorkStartDate($date){
             if($date == ''){
-                $this->employee_work_start_date = date("Y-m-d H:i:s");
+                $this->employee_work_start_date = date("Y-m-d");
             }
             else {
                 $this->employee_work_start_date = $date;

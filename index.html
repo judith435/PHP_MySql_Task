@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>test</title>
+    <title>Employee's Management App</title>
 </head>
 <body>
-    <form method="post" action="contact.php">
+    <form method="post" action="EmployeesManagement.php">
         <fieldset>
             <legend>Employee's Management Menu</legend>
             <label>Employee ID: <input type="number" name="employeeID"></label>
-            <label>Employee Name: <input type="text" name="employeeName"></label>
+            <label>Employee Name: <input type="text" name="employeeName" maxlength="45"></label>
             <label>Employee Work Start Date: <input type="date" name="employeeWorkStartDate"></label>
-
-            <button  name="activity" value="AllEmployees">Get All Employees</button> 
+            <br><br>
+            <button  name="activity" value="GetAllEmployees">Get All Employees</button> 
             <button  name="activity" value="GetEmployee">Get Employee</button>
-            <button  name="activity" value="NewEmployee">Add New Employee</button>
+            <button  name="activity" value="AddEmployee">Add New Employee</button>
+            <button  name="activity" value="UpdateEmployee">Update Employee</button>
             <button  name="activity" value="DeleteEmployee">Delete Employee</button>
         </fieldset>    
-        <button>dummy</button> 
-        
     </form>
 </body>
 </html>
